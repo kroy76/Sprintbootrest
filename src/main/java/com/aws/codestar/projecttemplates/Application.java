@@ -9,6 +9,8 @@ import org.springframework.web.servlet.HandlerMapping;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import com.aws.codestar.projecttemplates.HelloWorldController;
+
 /** Simple class to start up the application.
  *
  * @SpringBootApplication adds:

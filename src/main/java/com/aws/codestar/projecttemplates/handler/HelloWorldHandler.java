@@ -9,10 +9,16 @@ import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.RequestStreamHandler;
 import com.aws.codestar.projecttemplates.Application;
 import com.aws.codestar.projecttemplates.GatewayResponse;
+import com.aws.codestar.projecttemplates.filter.CognitoIdentityFilter;
+
 import org.json.JSONObject;
 
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.FilterRegistration;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +44,10 @@ public class HelloWorldHandler implements RequestStreamHandler {
             handler = SpringBootLambdaContainerHandler.getAwsProxyHandler(Application.class);
             // If you are using HTTP APIs with the version 2.0 of the proxy model, use the getHttpApiV2ProxyHandler
             // method: handler = SpringBootLambdaContainerHandler.getHttpApiV2ProxyHandler(Application.class);
+            handler.onStartup(servletContext -> {
+                FilterRegistration.Dynamic registration = servletContext.addFilter("CognitoIdentityFilter", CognitoIdentityFilter.class);
+                registration.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true, "/*");
+            });            
         } catch (ContainerInitializationException e) {
             // if we fail here. We re-throw the exception to force another cold start
             e.printStackTrace();

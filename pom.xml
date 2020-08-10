@@ -88,6 +88,19 @@
                         <goals>
                           <goal>shade</goal>
                         </goals>
+           <configuration>
+                <transformers>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <mainClass>com.aws.codestar.projecttemplates.Application</mainClass>
+                    </transformer>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                        <resource>META-INF/spring.handlers</resource>
+                    </transformer>
+                    <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                        <resource>META-INF/spring.schemas</resource>
+                    </transformer>
+                </transformers>
+            </configuration>
                       </execution>
                     </executions>
                   </plugin>
